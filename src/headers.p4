@@ -77,6 +77,7 @@ header_type ingress_metadata_t {
 		bit<1> 	unknown_unicast;
         bit<1>  mcast_snp;
         bit<1>  mc_fdb_miss;
+        bit     ipmc;
 	}
 }
 

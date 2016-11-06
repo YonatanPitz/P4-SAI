@@ -96,7 +96,7 @@ table table_l3_interface {
     	ethernet.dstAddr			: exact;
     	ingress_metadata.bridge_id 	: exact;
     }
-    actions {action_go_to_in_l3_if_table; action_go_to_fdb_table;}
+    actions {action_go_to_in_l3_if_table; }//action_go_to_fdb_table;}
     //size : 1; TODO
 }
 //---------
@@ -116,7 +116,7 @@ table table_l3_if{ // TODO - definition
 		ethernet.dstAddr		   : exact;
         ingress_metadata.bridge_id : exact;
 	}
-	actions{action_forward;action_go_to_fdb_table;}
+	actions{action_forward;}//action_go_to_fdb_table;}
 }
 
 table table_unknown_unicast {
@@ -150,7 +150,7 @@ table table_mc_l2_sg_g{// IP MC
 // egress 1d bridge
 //-----------
 
-table table_egrass_vbridge_STP {
+table table_egress_vbridge_STP {
     reads {
         ingress_metadata.bridge_port : exact; //TODO maybe egress? who set br_port?
     }
@@ -158,7 +158,7 @@ table table_egrass_vbridge_STP {
     //size : 1; // TODO
 }
 
-table table_egrass_vbridge {
+table table_egress_vbridge {
     reads {
         ingress_metadata.bridge_port : exact; //TODO maybe egress? who set br_port?
     }
@@ -178,12 +178,12 @@ table table_egress_xSTP{
     actions {action_set_egress_stp_state; _drop;}
 }
 
-table table_egrass_vlan_filtering{
+table table_egress_vlan_filtering{
     reads{
         egress_metadata.out_if  : exact;
         ingress_metadata.vid    : exact;
     }
-    actions{_drop; ;}
+    actions{_drop;}
 }
 
 //-----------
@@ -198,3 +198,8 @@ table table_egress_lag {
     actions {action_set_out_port; _drop;}
     //size : 1; // TODO
 }
+
+
+//table table_unknown_multicast {
+
+//}

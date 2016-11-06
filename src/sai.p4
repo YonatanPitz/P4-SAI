@@ -73,23 +73,22 @@ control control_fdb{
 			apply(table_l3_if);
 		}
 		miss{
-			action_go_to_fdb_table{
-				if((ethernet.srcAddr>>47) == UNICAST){ //TODO unicast - mac msb is off lsb of 1st byte should be 0.
-					apply(table_fdb){
-						miss { // if packet not in fdb
-							apply(table_unknown_unicast);
-						}
-					}	
-				}
-				else if(ingress_metadata.mcast_snp & ingress_metadata.ipmc){
-					apply(table_mc_l2_sg_g);	
-				}
-				else if(!(ingress_metadata.mcast_snp & ingress_metadata.ipmc)){ // MC flow
-					apply(table_mc_fdb);	
-				}
-				if(ingress_metadata.mc_fdb_miss) apply(table_unknown_multicast);
-			//TODO duplicate to multiple egress according to fdb list
+			// action_go_to_fdb_table{
+			if((ethernet.srcAddr>>47) == UNICAST){ //TODO unicast - mac msb is off lsb of 1st byte should be 0.
+				apply(table_fdb){
+					miss { // if packet not in fdb
+						apply(table_unknown_unicast);
+					}
+				}	
 			}
+			else if(ingress_metadata.mcast_snp & ingress_metadata.ipmc){
+				apply(table_mc_l2_sg_g);	
+			}
+			else if( not (ingress_metadata.mcast_snp & ingress_metadata.ipmc)){ // MC flow
+				apply(table_mc_fdb);	
+			}
+			if(ingress_metadata.mc_fdb_miss) apply(table_unknown_multicast);
+			//TODO duplicate to multiple egress according to fdb list
 		}
 
 	}
@@ -97,12 +96,12 @@ control control_fdb{
 
 control egress{
 	if(ingress_metadata.l2_if_type == L2_1D_BRIDGE){
-		apply(table_egrass_vbridge_STP);
-		apply(table_egrass_vbridge);
+		apply(table_egress_vbridge_STP);
+		apply(table_egress_vbridge);
 	}
 	if(ingress_metadata.l2_if_type == L2_1Q_BRIDGE){
-		apply(table_egrass_xSTP);
-		apply(table_egrass_vlan_filtering);
+		apply(table_egress_xSTP);
+		apply(table_egress_vlan_filtering);
 	}
 
 	if(egress_metadata.out_if == OUT_IF_IS_LAG){ // TODO when out_if is set?
@@ -115,5 +114,9 @@ control egress{
 	//if((egress_metadata.stp_state == STP_FORWORDING) and (egress_metadata.tag_mode == TAG) ){
 		// TODO: go to egress
 	//}
+}
+
+control control_1q_egress_uni_router {
+
 }
 

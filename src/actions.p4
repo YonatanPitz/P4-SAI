@@ -42,9 +42,9 @@ action action_set_stp_id(in bit<3> stp_id){
 action action_go_to_in_l3_if_table(){
 	no_op();
 }
-action action_go_to_fdb_table(){
-	no_op();
-}
+//action action_go_to_fdb_table(){
+//	no_op();
+//}
 
 //modify_field (ingress_metadata.,);
 
@@ -77,8 +77,9 @@ action action_set_egress_stp_state(in bit<2> stp_state){
 }
 
 action action_set_tag_mode(in bit tag_mode){
-egress_metadata = tag_mode
+	egress_metadata.tag_mode = tag_mode;
 }
+
 action action_set_vlan_tag_mode(in bit<3> pcp, in bit cfi, in bit<12> vid, in bit<16> ethType, in bit tag_mode){
 	vlan.pcp = pcp;
 	vlan.cfi = cfi;
@@ -97,4 +98,9 @@ action broadcast() {
 
 action set_egr(in bit<6> egress_spec) {
     modify_field(standard_metadata.egress_spec, egress_spec);
+}
+
+// mc
+action action_set_mc_fdb_miss() {
+	no_op();
 }
