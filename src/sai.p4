@@ -24,7 +24,9 @@ metadata 	egress_metadata_t 	 egress_metadata;
 control ingress {
 	// phy
 	control_port();
-	
+	// dot1br 
+//	control_dot1br_ingress();
+
 	// bridging
 	if(ingress_metadata.l2_if_type == L2_1D_BRIDGE)	control_1d_bridge_flow();
 	if(ingress_metadata.l2_if_type == L2_1Q_BRIDGE) control_1q_bridge_flow();
@@ -42,14 +44,20 @@ control control_port{
 	apply(table_ingress_l2_interface_type);
 }
 
+//control control_dot1br_ingress{
+	//apply(table_dot1br_port_type);
+	//apply(table_extended_port_determination);
+	//apply(table_dot1br_lag);
+//}
+
 control control_1d_bridge_flow{
 	apply(table_vbridge);
 	apply(table_vbridge_STP);
-
 }
 
 control control_1q_bridge_flow{
  	apply(table_ingress_vlan_filtering);
+ 	apply(table_ingress_vlan);
  	apply(table_xSTP_instance);
  	apply(table_xSTP);
 }
@@ -60,31 +68,52 @@ control control_router_flow{
 
 control control_fdb{
 	apply(table_learn_fdb);
-		apply(table_l3_interface){
-			action_go_to_in_l3_if_table{
-				apply(table_l3_if);
-			}
+	apply(table_l3_interface){
+		hit{
+			apply(table_l3_if);
+		}
+		miss{
 			action_go_to_fdb_table{
-				if((ethernet.srcAddr>>48) != UNICAST){ //TODO unicast - mac msb is off lsb of 1st byte should be 0.
+				if((ethernet.srcAddr>>47) == UNICAST){ //TODO unicast - mac msb is off lsb of 1st byte should be 0.
 					apply(table_fdb){
 						miss { // if packet not in fdb
 							apply(table_unknown_unicast);
 						}
 					}	
 				}
+				else if(ingress_metadata.mcast_snp & ingress_metadata.ipmc){
+					apply(table_mc_l2_sg_g);	
+				}
+				else if(!(ingress_metadata.mcast_snp & ingress_metadata.ipmc)){ // MC flow
+					apply(table_mc_fdb);	
+				}
+				if(ingress_metadata.mc_fdb_miss) apply(table_unknown_multicast);
+			//TODO duplicate to multiple egress according to fdb list
 			}
 		}
-		apply(table_egrass_vbridge_STP);
-		apply(table_egrass_vbridge);
-		//if((egress_metadata.stp_state == STP_FORWORDING) and (egress_metadata.tag_mode == TAG) ){
-			// TODO: go to egress
-		//}
+
+	}
 }
 
 control egress{
+	if(ingress_metadata.l2_if_type == L2_1D_BRIDGE){
+		apply(table_egrass_vbridge_STP);
+		apply(table_egrass_vbridge);
+	}
+	if(ingress_metadata.l2_if_type == L2_1Q_BRIDGE){
+		apply(table_egrass_xSTP);
+		apply(table_egrass_vlan_filtering);
+	}
+
 	if(egress_metadata.out_if == OUT_IF_IS_LAG){ // TODO when out_if is set?
 		apply(table_egress_lag);
 	}
-//    apply(egress_acl); // TODO
+	else if(egress_metadata.out_if == OUT_IF_IS_ROUTER){
+		control_1q_egress_uni_router();
+	}
+	//apply(egress_acl); // TODO
+	//if((egress_metadata.stp_state == STP_FORWORDING) and (egress_metadata.tag_mode == TAG) ){
+		// TODO: go to egress
+	//}
 }
 

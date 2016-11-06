@@ -27,4 +27,5 @@
 #define STP_FORWORDING		1 // TODO
 #define TAG 				1 // TODO
 #define OUT_IF_IS_LAG 		1 // TODO
+#define OUT_IF_IS_ROUTER	2 // TODO
 

@@ -27,6 +27,10 @@ action action_set_l2_if_type(in bit<2> packet_type){
 action action_set_bridge_id(in bit<3> bridge_id){
 	ingress_metadata.bridge_id = bridge_id;
 }
+
+action action_set_mcast_snp(in bit<1> mcast_snp){
+	ingress_metadata.mcast_snp = mcast_snp;
+}
 action action_set_stp_state(in bit<3> stp_state){
 	ingress_metadata.stp_state = stp_state;
 }
@@ -55,15 +59,26 @@ action action_forward_set_outIfType(in bit<6> port,in bit<1> out_if_type){
 	egress_metadata.out_if_type 	= out_if_type;
 }
 
+action action_ste_fdb_miss(in bit mc_fdb_miss){
+	ingress_metadata.mc_fdb_miss = mc_fdb_miss;
+}
+
 action action_forward(in bit<6> port) {
     standard_metadata.egress_spec 	= port;	
     egress_metadata.out_if 			= port;
+}
+
+action action_forward_mc_set_if_list(){
+	// TODO add set egress if list
 }
 
 action action_set_egress_stp_state(in bit<2> stp_state){
 	egress_metadata.stp_state = stp_state;
 }
 
+action action_set_tag_mode(in bit tag_mode){
+egress_metadata = tag_mode
+}
 action action_set_vlan_tag_mode(in bit<3> pcp, in bit cfi, in bit<12> vid, in bit<16> ethType, in bit tag_mode){
 	vlan.pcp = pcp;
 	vlan.cfi = cfi;
