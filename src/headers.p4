@@ -68,7 +68,7 @@ header_type ingress_metadata_t {
 		bit 	is_lag;
 		bit<16> lag_id; // LAG_WDT
 		bit<2> 	l2_if_type;
-		bit<3> 	bridge_port; //L2_BRIDGE_NUM_WDT
+		bit<8> 	bridge_port; //L2_BRIDGE_PORT_WDT
 		bit<3> 	bridge_id;	 //L2_BRIDGE_NUM_WDT
 		bit<2> 	stp_state;
 		bit<3>	stp_id; // TODO size?

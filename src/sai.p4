@@ -111,7 +111,7 @@ control egress{
 		control_1q_egress_uni_router();
 	}
 	//apply(egress_acl); // TODO
-	//if((egress_metadata.stp_state == STP_FORWORDING) and (egress_metadata.tag_mode == TAG) ){
+	//if((egress_metadata.stp_state == STP_FORWARDING) and (egress_metadata.tag_mode == TAG) ){
 		// TODO: go to egress
 	//}
 }

@@ -13,7 +13,7 @@ table table_accepted_frame_type {
         ingress_metadata.l2_if : exact;
         ingress_metadata.is_tagged : exact;
     }
-    actions {action_set_pvid;action_set_packet_vid;}
+    actions {action_set_pvid;action_set_packet_vid;_drop;}
     //size : 1; // TODO
 }
 
@@ -146,6 +146,12 @@ table table_mc_l2_sg_g{// IP MC
     actions{action_forward_mc_set_if_list;action_set_mc_fdb_miss;}
 }
 
+table table_unknown_multicast{
+    reads{
+      ingress_metadata.bridge_id : exact;
+    }
+    actions{action_forward_mc_set_if_list;}
+}
 //-----------
 // egress 1d bridge
 //-----------
@@ -198,8 +204,3 @@ table table_egress_lag {
     actions {action_set_out_port; _drop;}
     //size : 1; // TODO
 }
-
-
-//table table_unknown_multicast {
-
-//}

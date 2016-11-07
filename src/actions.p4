@@ -14,6 +14,7 @@ action action_set_lag_l2if(in bit is_lag, in bit<16> lag_id,in bit<3> l2_if){
 	ingress_metadata.lag_id =	lag_id;
 	ingress_metadata.l2_if 	=	l2_if;
 }
+
 action action_set_pvid(in bit<12> pvid){
 	ingress_metadata.pvid 	=	pvid;
 }
@@ -21,8 +22,10 @@ action action_set_packet_vid(){
 	ingress_metadata.pvid 	=	vlan.vid;
 }
 
-action action_set_l2_if_type(in bit<2> packet_type){
-	ingress_metadata.l2_if_type = packet_type;
+action action_set_l2_if_type(in bit<2> l2_if_type, in bit<8> bridge_port){
+	// L2_BRIDGE_PORT_WDT
+	ingress_metadata.l2_if_type = l2_if_type;
+	ingress_metadata.bridge_port = bridge_port; 
 }
 action action_set_bridge_id(in bit<3> bridge_id){
 	ingress_metadata.bridge_id = bridge_id;
