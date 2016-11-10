@@ -112,7 +112,7 @@ control egress{
 		apply(table_egress_vlan_filtering);
 	}
 
-	if(egress_metadata.out_if == OUT_IF_IS_LAG){ // TODO when out_if is set?
+	if(egress_metadata.out_if_type == OUT_IF_IS_LAG){ 
 		apply(table_egress_lag);
 	}
 	else if(egress_metadata.out_if == OUT_IF_IS_ROUTER){

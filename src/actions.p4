@@ -56,9 +56,8 @@ action action_learn_mac() {
     generate_digest(MAC_LEARN_RECEIVER, mac_learn_digest);
 }
 
-action action_forward_set_outIfType(in bit<6> port,in bit<1> out_if_type){
-	standard_metadata.egress_spec 	= port;
-	egress_metadata.out_if 			= port;
+action action_forward_set_outIfType(in bit<6> out_if,in bit<1> out_if_type){
+	egress_metadata.out_if 			= out_if;
 	egress_metadata.out_if_type 	= out_if_type;
 }
 

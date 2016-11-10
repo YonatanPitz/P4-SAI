@@ -28,6 +28,7 @@
 #define UNICAST 			0 // TODO
 // STP STATE
 #define STP_FORWARDING		1 // TODO
+#define STP_DISCARDING      0 // TODO
 #define TAG 				1 // TODO
 
 // OUT_IF TYPE
