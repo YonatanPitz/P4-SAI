@@ -205,3 +205,10 @@ table table_egress_lag {
     actions {action_set_out_port; _drop;}
     //size : 1; // TODO
 }
+
+table table_egress_port {
+    reads {
+        egress_metadata.out_if : exact;
+    }
+    actions {action_set_out_port;}
+}
