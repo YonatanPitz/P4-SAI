@@ -1,5 +1,3 @@
-run_server.sh
-runtime_CLI
 TestFlows.txt
 log.txt
-nanomsg_client
+Test.py
