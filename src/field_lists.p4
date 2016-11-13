@@ -25,3 +25,15 @@ field_list ipv4_checksum_list {
         ipv4.srcAddr;
         ipv4.dstAddr;
 }
+
+field_list lag_hash_fieldlist { //TODO: Consult Matty which fields to use for hash, preferably to keep same flows in same out port.
+    ethernet.srcAddr;
+}
+
+field_list_calculation lag_hash {
+    input {
+        lag_hash_fieldlist;
+    }
+    algorithm : crc16;
+    output_width : 16; //TODO: LOG2(NUM_OF_PORTS)
+}

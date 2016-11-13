@@ -44,8 +44,3 @@ table_set_default table_egress_vbridge action_set_vlan_tag_mode 0 0 0 0 0
 
 table_add table_egress_lag action_set_out_port 3 0 => 3
 table_add table_egress_lag action_set_out_port 3 1 => 4
-
-table_set_default table_egress_port action_set_out_port 5
-table_add table_egress_port action_set_out_port 0 => 0
-table_add table_egress_port action_set_out_port 1 => 1
-table_add table_egress_port action_set_out_port 2 => 2
