@@ -89,7 +89,7 @@ header_type egress_metadata_t {
         bit<3> 	out_if; // L2_BRIDGE_NUM_WDT TODO remove? same as standard_metadata.egress_spec?
         bit<2> 	stp_state; // same as ingress? duplication?
         bit  	tag_mode;
-        bit 	hash_val;// TODO for egress lag table, when it is set?
+        bit<6> 	hash_val;// TODO for egress lag table, when it is set?
         bit<4> 	mcast_grp;
     }
 }
