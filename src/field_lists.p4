@@ -34,6 +34,6 @@ field_list_calculation lag_hash {
     input {
         lag_hash_fieldlist;
     }
-    algorithm : hash_ex;
-    output_width : 32; //TODO: LOG2(NUM_OF_PORTS)
+    algorithm : xor8; //TODO: change to lag_hash
+    output_width : 1; //TODO: LOG2(NUM_OF_PORTS)
 }

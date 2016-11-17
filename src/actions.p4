@@ -60,7 +60,7 @@ action action_forward_set_outIfType(in bit<6> out_if,in bit<1> out_if_type){
 	egress_metadata.out_if 			= out_if;
 	egress_metadata.out_if_type 	= out_if_type;
 	standard_metadata.egress_spec = out_if; //TODO: Remove this when controling port from egress is possible
-	modify_field_with_hash_based_offset(egress_metadata.hash_val, 0, lag_hash, 1);
+	modify_field_with_hash_based_offset(egress_metadata.hash_val, 0, lag_hash, 2);
 }
 
 action action_ste_fdb_miss(in bit mc_fdb_miss){
