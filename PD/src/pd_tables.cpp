@@ -347,6 +347,41 @@ void unbuild_key_table_learn_fdb (
 
 }
 
+std::vector<BmMatchParam> build_key_table_lag_hash (
+    p4_pd_prog_table_lag_hash_match_spec_t *match_spec
+) {
+  std::vector<BmMatchParam> key;
+  key.reserve(1);
+
+  BmMatchParam param;
+  BmMatchParamExact param_exact; (void) param_exact;
+  BmMatchParamLPM param_lpm; (void) param_lpm;
+  BmMatchParamTernary param_ternary; (void) param_ternary;
+  BmMatchParamValid param_valid; (void) param_valid;
+  BmMatchParamRange param_range; (void) param_range;
+
+  param_exact.key = string_from_field<1>((char *) &(match_spec->egress_metadata_out_if));
+  param = BmMatchParam();
+  param.type = BmMatchParamType::type::EXACT;
+  param.__set_exact(param_exact); // does a copy of param_exact
+  key.push_back(std::move(param));
+
+  return key;
+}
+
+void unbuild_key_table_lag_hash (
+    const std::vector<BmMatchParam> &key,
+    p4_pd_prog_table_lag_hash_match_spec_t *match_spec
+) {
+  size_t i = 0;
+  {
+    const BmMatchParam &param = key.at(i++);
+    assert(param.type == BmMatchParamType::type::EXACT);
+    string_to_field<1>(param.exact.key, (char *) &(match_spec->egress_metadata_out_if));
+  }
+
+}
+
 std::vector<BmMatchParam> build_key_table_egress_lag (
     p4_pd_prog_table_egress_lag_match_spec_t *match_spec
 ) {
@@ -1078,6 +1113,25 @@ void unbuild_action_data_action_set_egress_stp_state (
   size_t i = 0;
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_stp_state));
 }
+std::vector<std::string> build_action_data_action_set_lag_l2if (
+    p4_pd_prog_action_set_lag_l2if_action_spec_t *action_spec
+) {
+  std::vector<std::string> action_data;
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_is_lag)));
+  action_data.push_back(string_from_field<2>((char *) &(action_spec->action_lag_id)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_l2_if)));
+  return action_data;
+}
+
+void unbuild_action_data_action_set_lag_l2if (
+    const std::vector<std::string> &action_data,
+    p4_pd_prog_action_set_lag_l2if_action_spec_t *action_spec
+) {
+  size_t i = 0;
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_is_lag));
+  string_to_field<2>(action_data.at(i++), (char *) &(action_spec->action_lag_id));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_l2_if));
+}
 std::vector<std::string> build_action_data_action_set_vlan_tag_mode (
     p4_pd_prog_action_set_vlan_tag_mode_action_spec_t *action_spec
 ) {
@@ -1133,39 +1187,50 @@ void unbuild_action_data_action_forward_set_outIfType (
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_out_if));
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_out_if_type));
 }
-std::vector<std::string> build_action_data_action_set_stp_id (
-    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
+std::vector<std::string> build_action_data_action_set_lag_hash_size (
+    p4_pd_prog_action_set_lag_hash_size_action_spec_t *action_spec
 ) {
   std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_stp_id)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_lag_size)));
   return action_data;
 }
 
-void unbuild_action_data_action_set_stp_id (
+void unbuild_action_data_action_set_lag_hash_size (
     const std::vector<std::string> &action_data,
-    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
+    p4_pd_prog_action_set_lag_hash_size_action_spec_t *action_spec
 ) {
   size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_stp_id));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_lag_size));
 }
-std::vector<std::string> build_action_data_action_set_lag_l2if (
-    p4_pd_prog_action_set_lag_l2if_action_spec_t *action_spec
+std::vector<std::string> build_action_data_action_forward (
+    p4_pd_prog_action_forward_action_spec_t *action_spec
 ) {
   std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_is_lag)));
-  action_data.push_back(string_from_field<2>((char *) &(action_spec->action_lag_id)));
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_l2_if)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_port)));
   return action_data;
 }
 
-void unbuild_action_data_action_set_lag_l2if (
+void unbuild_action_data_action_forward (
     const std::vector<std::string> &action_data,
-    p4_pd_prog_action_set_lag_l2if_action_spec_t *action_spec
+    p4_pd_prog_action_forward_action_spec_t *action_spec
 ) {
   size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_is_lag));
-  string_to_field<2>(action_data.at(i++), (char *) &(action_spec->action_lag_id));
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_l2_if));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_port));
+}
+std::vector<std::string> build_action_data_action_set_bridge_id (
+    p4_pd_prog_action_set_bridge_id_action_spec_t *action_spec
+) {
+  std::vector<std::string> action_data;
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_bridge_id)));
+  return action_data;
+}
+
+void unbuild_action_data_action_set_bridge_id (
+    const std::vector<std::string> &action_data,
+    p4_pd_prog_action_set_bridge_id_action_spec_t *action_spec
+) {
+  size_t i = 0;
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_bridge_id));
 }
 std::vector<std::string> build_action_data_action_set_l2_if_type (
     p4_pd_prog_action_set_l2_if_type_action_spec_t *action_spec
@@ -1183,21 +1248,6 @@ void unbuild_action_data_action_set_l2_if_type (
   size_t i = 0;
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_l2_if_type));
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_bridge_port));
-}
-std::vector<std::string> build_action_data_action_set_bridge_id (
-    p4_pd_prog_action_set_bridge_id_action_spec_t *action_spec
-) {
-  std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_bridge_id)));
-  return action_data;
-}
-
-void unbuild_action_data_action_set_bridge_id (
-    const std::vector<std::string> &action_data,
-    p4_pd_prog_action_set_bridge_id_action_spec_t *action_spec
-) {
-  size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_bridge_id));
 }
 std::vector<std::string> build_action_data_action_set_mcast_snp (
     p4_pd_prog_action_set_mcast_snp_action_spec_t *action_spec
@@ -1229,20 +1279,20 @@ void unbuild_action_data_action_set_pvid (
   size_t i = 0;
   string_to_field<2>(action_data.at(i++), (char *) &(action_spec->action_pvid));
 }
-std::vector<std::string> build_action_data_action_forward (
-    p4_pd_prog_action_forward_action_spec_t *action_spec
+std::vector<std::string> build_action_data_action_set_stp_id (
+    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
 ) {
   std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_port)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_stp_id)));
   return action_data;
 }
 
-void unbuild_action_data_action_forward (
+void unbuild_action_data_action_set_stp_id (
     const std::vector<std::string> &action_data,
-    p4_pd_prog_action_forward_action_spec_t *action_spec
+    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
 ) {
   size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_port));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_stp_id));
 }
 std::vector<std::string> build_action_data_action_set_stp_state (
     p4_pd_prog_action_set_stp_state_action_spec_t *action_spec
@@ -1463,6 +1513,32 @@ p4_pd_prog_table_learn_fdb_table_add_with__nop
     const char *what =
       _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
     std::cout << "Invalid table (" << "table_learn_fdb" << ") operation ("
+	      << ito.code << "): " << what << std::endl;
+    return ito.code;
+  }
+  return 0;
+}
+
+p4_pd_status_t
+p4_pd_prog_table_lag_hash_table_add_with_action_set_lag_hash_size
+(
+ p4_pd_sess_hdl_t sess_hdl,
+ p4_pd_dev_target_t dev_tgt,
+ p4_pd_prog_table_lag_hash_match_spec_t *match_spec,
+ p4_pd_prog_action_set_lag_hash_size_action_spec_t *action_spec,
+ p4_pd_entry_hdl_t *entry_hdl
+) {
+  assert(my_devices[dev_tgt.device_id]);
+  std::vector<BmMatchParam> match_key = build_key_table_lag_hash(match_spec);
+  std::vector<std::string> action_data = build_action_data_action_set_lag_hash_size(action_spec);
+  BmAddEntryOptions options;
+  try {
+    *entry_hdl = pd_client(dev_tgt.device_id).c->bm_mt_add_entry(
+        0, "table_lag_hash", match_key, "action_set_lag_hash_size", action_data, options);
+  } catch (InvalidTableOperation &ito) {
+    const char *what =
+      _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
+    std::cout << "Invalid table (" << "table_lag_hash" << ") operation ("
 	      << ito.code << "): " << what << std::endl;
     return ito.code;
   }
@@ -2268,6 +2344,27 @@ p4_pd_prog_table_learn_fdb_table_delete
 }
 
 p4_pd_status_t
+p4_pd_prog_table_lag_hash_table_delete
+(
+ p4_pd_sess_hdl_t sess_hdl,
+ uint8_t dev_id,
+ p4_pd_entry_hdl_t entry_hdl
+) {
+  assert(my_devices[dev_id]);
+  auto client = pd_client(dev_id);
+  try {
+    client.c->bm_mt_delete_entry(0, "table_lag_hash", entry_hdl);
+  } catch (InvalidTableOperation &ito) {
+    const char *what =
+      _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
+    std::cout << "Invalid table (" << "table_lag_hash" << ") operation ("
+	      << ito.code << "): " << what << std::endl;
+    return ito.code;
+  }
+  return 0;
+}
+
+p4_pd_status_t
 p4_pd_prog_table_egress_lag_table_delete
 (
  p4_pd_sess_hdl_t sess_hdl,
@@ -2799,6 +2896,29 @@ p4_pd_prog_table_learn_fdb_table_modify_with__nop
     const char *what =
       _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
     std::cout << "Invalid table (" << "table_learn_fdb" << ") operation ("
+	      << ito.code << "): " << what << std::endl;
+    return ito.code;
+  }
+  return 0;
+}
+
+p4_pd_status_t
+p4_pd_prog_table_lag_hash_table_modify_with_action_set_lag_hash_size
+(
+ p4_pd_sess_hdl_t sess_hdl,
+ uint8_t dev_id,
+ p4_pd_entry_hdl_t entry_hdl,
+ p4_pd_prog_action_set_lag_hash_size_action_spec_t *action_spec
+) {
+  assert(my_devices[dev_id]);
+  std::vector<std::string> action_data = build_action_data_action_set_lag_hash_size(action_spec);
+  try {
+    pd_client(dev_id).c->bm_mt_modify_entry(
+        0, "table_lag_hash", entry_hdl, "action_set_lag_hash_size", action_data);
+  } catch (InvalidTableOperation &ito) {
+    const char *what =
+      _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
+    std::cout << "Invalid table (" << "table_lag_hash" << ") operation ("
 	      << ito.code << "): " << what << std::endl;
     return ito.code;
   }
@@ -3589,6 +3709,29 @@ p4_pd_prog_table_learn_fdb_set_default_action__nop
     const char *what =
       _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
     std::cout << "Invalid table (" << "table_learn_fdb" << ") operation ("
+	      << ito.code << "): " << what << std::endl;
+    return ito.code;
+  }
+  return 0;
+}
+
+p4_pd_status_t
+p4_pd_prog_table_lag_hash_set_default_action_action_set_lag_hash_size
+(
+ p4_pd_sess_hdl_t sess_hdl,
+ p4_pd_dev_target_t dev_tgt,
+ p4_pd_prog_action_set_lag_hash_size_action_spec_t *action_spec,
+ p4_pd_entry_hdl_t *entry_hdl
+) {
+  assert(my_devices[dev_tgt.device_id]);
+  std::vector<std::string> action_data = build_action_data_action_set_lag_hash_size(action_spec);
+  try {
+    pd_client(dev_tgt.device_id).c->bm_mt_set_default_action(
+        0, "table_lag_hash", "action_set_lag_hash_size", action_data);
+  } catch (InvalidTableOperation &ito) {
+    const char *what =
+      _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
+    std::cout << "Invalid table (" << "table_lag_hash" << ") operation ("
 	      << ito.code << "): " << what << std::endl;
     return ito.code;
   }
@@ -4391,6 +4534,49 @@ p4_pd_prog_table_learn_fdb_get_entry
   assert(action_entry.action_type == BmActionEntryType::ACTION_DATA);
   *num_action_bytes = 0;
   // not efficient, but who cares
+
+
+  return 0;
+}
+
+p4_pd_status_t
+p4_pd_prog_table_lag_hash_get_entry
+(
+ p4_pd_sess_hdl_t sess_hdl,
+ uint8_t dev_id,
+ p4_pd_entry_hdl_t entry_hdl,
+ bool read_from_hw,
+ p4_pd_prog_table_lag_hash_match_spec_t *match_spec,
+ char **action_name,
+ uint8_t *action_data,
+ int *num_action_bytes
+) {
+  assert(my_devices[dev_id]);
+  BmMtEntry entry;
+  try {
+    pd_client(dev_id).c->bm_mt_get_entry(entry, 0, "table_lag_hash", entry_hdl);
+  } catch (InvalidTableOperation &ito) {
+    const char *what =
+      _TableOperationErrorCode_VALUES_TO_NAMES.find(ito.code)->second;
+    std::cout << "Invalid table (" << "table_lag_hash" << ") operation ("
+	      << ito.code << "): " << what << std::endl;
+    return ito.code;
+  }
+  unbuild_key_table_lag_hash(entry.match_key, match_spec);
+
+  const BmActionEntry &action_entry = entry.action_entry;
+  assert(action_entry.action_type == BmActionEntryType::ACTION_DATA);
+  *num_action_bytes = 0;
+  // not efficient, but who cares
+  if (action_entry.action_name == "action_set_lag_hash_size") {
+    unbuild_action_data_action_set_lag_hash_size(
+        action_entry.action_data,
+        (p4_pd_prog_action_set_lag_hash_size_action_spec_t *) action_data);
+    *num_action_bytes = sizeof(p4_pd_prog_action_set_lag_hash_size_action_spec_t);
+    // not valid in C++, hence the cast, but I have no choice (can't change the
+    // signature of the method)
+    *action_name = (char *) "action_set_lag_hash_size";
+  }
 
 
   return 0;

@@ -196,6 +196,12 @@ table table_egress_vlan_filtering{
 //-----------
 // egress lag/phy
 //-----------
+table table_lag_hash { //TODO: FW flow to add ports as lag, should edit this table with lag size
+    reads {
+        egress_metadata.out_if : exact;
+    }
+    actions {action_set_lag_hash_size;}
+}
 
 table table_egress_lag {
     reads {

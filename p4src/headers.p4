@@ -63,7 +63,7 @@ header_type udp_t {
 header_type ingress_metadata_t {
 	fields {
 		bit<6> 	port;	//PHY_PORT_NUM_WDT
-		bit<3> 	l2_if;	//L2_BRIDGE_NUM_WDT
+		bit<6> 	l2_if;	//PHY_PORT_NUM_WDT
 		bit 	is_tagged;
 		bit 	is_lag;
 		bit<16> lag_id; // LAG_WDT

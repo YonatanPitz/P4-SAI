@@ -59,8 +59,7 @@ action action_learn_mac() {
 action action_forward_set_outIfType(in bit<6> out_if,in bit<1> out_if_type){
 	egress_metadata.out_if 			= out_if;
 	egress_metadata.out_if_type 	= out_if_type;
-	standard_metadata.egress_spec = out_if; //TODO: Remove this when controling port from egress is possible
-	modify_field_with_hash_based_offset(egress_metadata.hash_val, 0, lag_hash, 2);
+	standard_metadata.egress_spec = out_if; 
 }
 
 action action_ste_fdb_miss(in bit mc_fdb_miss){
@@ -90,6 +89,10 @@ action action_set_vlan_tag_mode(in bit<3> pcp, in bit cfi, in bit<12> vid, in bi
 	vlan.vid = vid;
 	vlan.ethType = ethType;
 	egress_metadata.tag_mode = tag_mode;
+}
+
+action action_set_lag_hash_size(in bit<6> lag_size) {
+	modify_field_with_hash_based_offset(egress_metadata.hash_val, 0, lag_hash, lag_size);
 }
 
 action action_set_out_port(in bit<6> port){

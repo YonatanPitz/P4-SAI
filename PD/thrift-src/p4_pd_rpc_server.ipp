@@ -232,6 +232,25 @@ public:
         return pd_entry;
     }
 
+    EntryHandle_t table_lag_hash_table_add_with_action_set_lag_hash_size(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_table_lag_hash_match_spec_t &match_spec, const prog_action_set_lag_hash_size_action_spec_t &action_spec) {
+        std::cerr << "In table_lag_hash_table_add_with_action_set_lag_hash_size\n";
+
+        p4_pd_dev_target_t pd_dev_tgt;
+        pd_dev_tgt.device_id = dev_tgt.dev_id;
+        pd_dev_tgt.dev_pipe_id = dev_tgt.dev_pipe_id;
+
+        p4_pd_prog_table_lag_hash_match_spec_t pd_match_spec;
+        pd_match_spec.egress_metadata_out_if = match_spec.egress_metadata_out_if;
+
+        p4_pd_prog_action_set_lag_hash_size_action_spec_t pd_action_spec;
+        pd_action_spec.action_lag_size = action_spec.action_lag_size;
+
+        p4_pd_entry_hdl_t pd_entry;
+
+        p4_pd_prog_table_lag_hash_table_add_with_action_set_lag_hash_size(sess_hdl, pd_dev_tgt, &pd_match_spec, &pd_action_spec, &pd_entry);
+        return pd_entry;
+    }
+
     EntryHandle_t table_egress_lag_table_add_with__drop(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_table_egress_lag_match_spec_t &match_spec) {
         std::cerr << "In table_egress_lag_table_add_with__drop\n";
 
@@ -796,6 +815,16 @@ public:
         return p4_pd_prog_table_learn_fdb_table_modify_with__nop(sess_hdl, dev_id, entry);
     }
 
+    EntryHandle_t table_lag_hash_table_modify_with_action_set_lag_hash_size(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry, const prog_action_set_lag_hash_size_action_spec_t &action_spec) {
+        std::cerr << "In table_lag_hash_table_modify_with_action_set_lag_hash_size\n";
+
+        p4_pd_prog_action_set_lag_hash_size_action_spec_t pd_action_spec;
+        pd_action_spec.action_lag_size = action_spec.action_lag_size;
+
+
+        return p4_pd_prog_table_lag_hash_table_modify_with_action_set_lag_hash_size(sess_hdl, dev_id, entry, &pd_action_spec);
+    }
+
     EntryHandle_t table_egress_lag_table_modify_with__drop(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry) {
         std::cerr << "In table_egress_lag_table_modify_with__drop\n";
 
@@ -1067,6 +1096,12 @@ public:
         return p4_pd_prog_table_learn_fdb_table_delete(sess_hdl, dev_id, entry);
     }
 
+    int32_t table_lag_hash_table_delete(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry) {
+        std::cerr << "In table_lag_hash_table_delete\n";
+
+        return p4_pd_prog_table_lag_hash_table_delete(sess_hdl, dev_id, entry);
+    }
+
     int32_t table_egress_lag_table_delete(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry) {
         std::cerr << "In table_egress_lag_table_delete\n";
 
@@ -1288,6 +1323,23 @@ public:
         p4_pd_entry_hdl_t pd_entry;
 
         return p4_pd_prog_table_learn_fdb_set_default_action__nop(sess_hdl, pd_dev_tgt, &pd_entry);
+
+        // return pd_entry;
+    }
+
+    int32_t table_lag_hash_set_default_action_action_set_lag_hash_size(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_action_set_lag_hash_size_action_spec_t &action_spec) {
+        std::cerr << "In table_lag_hash_set_default_action_action_set_lag_hash_size\n";
+
+        p4_pd_dev_target_t pd_dev_tgt;
+        pd_dev_tgt.device_id = dev_tgt.dev_id;
+        pd_dev_tgt.dev_pipe_id = dev_tgt.dev_pipe_id;
+
+        p4_pd_prog_action_set_lag_hash_size_action_spec_t pd_action_spec;
+        pd_action_spec.action_lag_size = action_spec.action_lag_size;
+
+        p4_pd_entry_hdl_t pd_entry;
+
+        return p4_pd_prog_table_lag_hash_set_default_action_action_set_lag_hash_size(sess_hdl, pd_dev_tgt, &pd_action_spec, &pd_entry);
 
         // return pd_entry;
     }

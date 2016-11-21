@@ -116,6 +116,7 @@ control egress{
 	//	apply(table_egress_port);
 	//} else
 	if (egress_metadata.out_if_type == OUT_IF_IS_LAG) { 
+		apply(table_lag_hash);
 		apply(table_egress_lag);
 	}
 	else if(egress_metadata.out_if == OUT_IF_IS_ROUTER){

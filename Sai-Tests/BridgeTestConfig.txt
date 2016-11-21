@@ -42,5 +42,9 @@ table_set_default table_egress_vbridge_STP action_set_egress_stp_state 1
 
 table_set_default table_egress_vbridge action_set_vlan_tag_mode 0 0 0 0 0
 
+table_set_default table_lag_hash action_set_lag_hash_size 1
+table_add table_lag_hash action_set_lag_hash_size 3 => 3
+
 table_add table_egress_lag action_set_out_port 3 0 => 3
 table_add table_egress_lag action_set_out_port 3 1 => 4
+table_add table_egress_lag action_set_out_port 3 2 => 5
