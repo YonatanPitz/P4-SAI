@@ -1,6 +1,5 @@
-TestFlows.txt
+*.pyc
 log.txt
-Test.py
 .deps/
 .libs/
 Makefile
@@ -22,6 +21,7 @@ tests/CLI_tests/Makefile
 tests/CLI_tests/Makefile.in
 tests/Makefile
 tests/Makefile.in
+tests/utils.o
 thrift/src/.deps/
 thrift/src/.dirstamp
 thrift/src/.libs/
