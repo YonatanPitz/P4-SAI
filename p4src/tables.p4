@@ -54,7 +54,7 @@ table table_ingress_vlan_filtering{
 		ingress_metadata.l2_if : exact;
         ingress_metadata.vid   : exact;
 	}
-	actions{_drop;action_forward;}
+	actions{_drop;_nop;}
 }
 
 table table_ingress_vlan{

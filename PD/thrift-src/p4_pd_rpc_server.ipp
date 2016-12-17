@@ -582,8 +582,8 @@ public:
         return pd_entry;
     }
 
-    EntryHandle_t table_ingress_vlan_filtering_table_add_with_action_forward(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_table_ingress_vlan_filtering_match_spec_t &match_spec, const prog_action_forward_action_spec_t &action_spec) {
-        std::cerr << "In table_ingress_vlan_filtering_table_add_with_action_forward\n";
+    EntryHandle_t table_ingress_vlan_filtering_table_add_with__nop(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_table_ingress_vlan_filtering_match_spec_t &match_spec) {
+        std::cerr << "In table_ingress_vlan_filtering_table_add_with__nop\n";
 
         p4_pd_dev_target_t pd_dev_tgt;
         pd_dev_tgt.device_id = dev_tgt.dev_id;
@@ -593,12 +593,9 @@ public:
         pd_match_spec.ingress_metadata_l2_if = match_spec.ingress_metadata_l2_if;
         pd_match_spec.ingress_metadata_vid = match_spec.ingress_metadata_vid;
 
-        p4_pd_prog_action_forward_action_spec_t pd_action_spec;
-        pd_action_spec.action_port = action_spec.action_port;
-
         p4_pd_entry_hdl_t pd_entry;
 
-        p4_pd_prog_table_ingress_vlan_filtering_table_add_with_action_forward(sess_hdl, pd_dev_tgt, &pd_match_spec, &pd_action_spec, &pd_entry);
+        p4_pd_prog_table_ingress_vlan_filtering_table_add_with__nop(sess_hdl, pd_dev_tgt, &pd_match_spec, &pd_entry);
         return pd_entry;
     }
 
@@ -983,14 +980,11 @@ public:
         return p4_pd_prog_table_ingress_vlan_filtering_table_modify_with__drop(sess_hdl, dev_id, entry);
     }
 
-    EntryHandle_t table_ingress_vlan_filtering_table_modify_with_action_forward(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry, const prog_action_forward_action_spec_t &action_spec) {
-        std::cerr << "In table_ingress_vlan_filtering_table_modify_with_action_forward\n";
-
-        p4_pd_prog_action_forward_action_spec_t pd_action_spec;
-        pd_action_spec.action_port = action_spec.action_port;
+    EntryHandle_t table_ingress_vlan_filtering_table_modify_with__nop(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry) {
+        std::cerr << "In table_ingress_vlan_filtering_table_modify_with__nop\n";
 
 
-        return p4_pd_prog_table_ingress_vlan_filtering_table_modify_with_action_forward(sess_hdl, dev_id, entry, &pd_action_spec);
+        return p4_pd_prog_table_ingress_vlan_filtering_table_modify_with__nop(sess_hdl, dev_id, entry);
     }
 
     EntryHandle_t table_accepted_frame_type_table_modify_with__drop(const SessionHandle_t sess_hdl, const int8_t dev_id, const EntryHandle_t entry) {
@@ -1628,19 +1622,16 @@ public:
         // return pd_entry;
     }
 
-    int32_t table_ingress_vlan_filtering_set_default_action_action_forward(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt, const prog_action_forward_action_spec_t &action_spec) {
-        std::cerr << "In table_ingress_vlan_filtering_set_default_action_action_forward\n";
+    int32_t table_ingress_vlan_filtering_set_default_action__nop(const SessionHandle_t sess_hdl, const DevTarget_t &dev_tgt) {
+        std::cerr << "In table_ingress_vlan_filtering_set_default_action__nop\n";
 
         p4_pd_dev_target_t pd_dev_tgt;
         pd_dev_tgt.device_id = dev_tgt.dev_id;
         pd_dev_tgt.dev_pipe_id = dev_tgt.dev_pipe_id;
 
-        p4_pd_prog_action_forward_action_spec_t pd_action_spec;
-        pd_action_spec.action_port = action_spec.action_port;
-
         p4_pd_entry_hdl_t pd_entry;
 
-        return p4_pd_prog_table_ingress_vlan_filtering_set_default_action_action_forward(sess_hdl, pd_dev_tgt, &pd_action_spec, &pd_entry);
+        return p4_pd_prog_table_ingress_vlan_filtering_set_default_action__nop(sess_hdl, pd_dev_tgt, &pd_entry);
 
         // return pd_entry;
     }

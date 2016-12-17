@@ -289,12 +289,11 @@ p4_pd_prog_table_ingress_vlan_filtering_table_add_with__drop
 );
 
 p4_pd_status_t
-p4_pd_prog_table_ingress_vlan_filtering_table_add_with_action_forward
+p4_pd_prog_table_ingress_vlan_filtering_table_add_with__nop
 (
  p4_pd_sess_hdl_t sess_hdl,
  p4_pd_dev_target_t dev_tgt,
  p4_pd_prog_table_ingress_vlan_filtering_match_spec_t *match_spec,
- p4_pd_prog_action_forward_action_spec_t *action_spec,
  p4_pd_entry_hdl_t *entry_hdl
 );
 
@@ -794,12 +793,11 @@ p4_pd_prog_table_ingress_vlan_filtering_table_modify_with__drop
 );
 
 p4_pd_status_t
-p4_pd_prog_table_ingress_vlan_filtering_table_modify_with_action_forward
+p4_pd_prog_table_ingress_vlan_filtering_table_modify_with__nop
 (
  p4_pd_sess_hdl_t sess_hdl,
  uint8_t dev_id,
- p4_pd_entry_hdl_t entry_hdl,
- p4_pd_prog_action_forward_action_spec_t *action_spec
+ p4_pd_entry_hdl_t entry_hdl
 );
 
 p4_pd_status_t
@@ -1103,11 +1101,10 @@ p4_pd_prog_table_ingress_vlan_filtering_set_default_action__drop
 );
 
 p4_pd_status_t
-p4_pd_prog_table_ingress_vlan_filtering_set_default_action_action_forward
+p4_pd_prog_table_ingress_vlan_filtering_set_default_action__nop
 (
  p4_pd_sess_hdl_t sess_hdl,
  p4_pd_dev_target_t dev_tgt,
- p4_pd_prog_action_forward_action_spec_t *action_spec,
  p4_pd_entry_hdl_t *entry_hdl
 );
 

@@ -168,32 +168,32 @@ typedef struct p4_pd_prog_action_forward_set_outIfType_action_spec {
 
 /* action_set_mc_fdb_miss has no parameters */
 
+typedef struct p4_pd_prog_action_forward_action_spec {
+  uint8_t action_port;
+} p4_pd_prog_action_forward_action_spec_t;
+
 /* action_go_to_in_l3_if_table has no parameters */
 
 typedef struct p4_pd_prog_action_set_lag_hash_size_action_spec {
   uint8_t action_lag_size;
 } p4_pd_prog_action_set_lag_hash_size_action_spec_t;
 
-typedef struct p4_pd_prog_action_forward_action_spec {
-  uint8_t action_port;
-} p4_pd_prog_action_forward_action_spec_t;
-
-typedef struct p4_pd_prog_action_set_bridge_id_action_spec {
-  uint8_t action_bridge_id;
-} p4_pd_prog_action_set_bridge_id_action_spec_t;
-
 typedef struct p4_pd_prog_action_set_l2_if_type_action_spec {
   uint8_t action_l2_if_type;
   uint8_t action_bridge_port;
 } p4_pd_prog_action_set_l2_if_type_action_spec_t;
 
+typedef struct p4_pd_prog_action_set_bridge_id_action_spec {
+  uint8_t action_bridge_id;
+} p4_pd_prog_action_set_bridge_id_action_spec_t;
+
 /* _nop has no parameters */
 
 /* _drop has no parameters */
 
-typedef struct p4_pd_prog_action_set_mcast_snp_action_spec {
-  uint8_t action_mcast_snp;
-} p4_pd_prog_action_set_mcast_snp_action_spec_t;
+typedef struct p4_pd_prog_action_set_stp_id_action_spec {
+  uint8_t action_stp_id;
+} p4_pd_prog_action_set_stp_id_action_spec_t;
 
 /* action_set_packet_vid has no parameters */
 
@@ -201,9 +201,9 @@ typedef struct p4_pd_prog_action_set_pvid_action_spec {
   uint16_t action_pvid;
 } p4_pd_prog_action_set_pvid_action_spec_t;
 
-typedef struct p4_pd_prog_action_set_stp_id_action_spec {
-  uint8_t action_stp_id;
-} p4_pd_prog_action_set_stp_id_action_spec_t;
+typedef struct p4_pd_prog_action_set_mcast_snp_action_spec {
+  uint8_t action_mcast_snp;
+} p4_pd_prog_action_set_mcast_snp_action_spec_t;
 
 typedef struct p4_pd_prog_action_set_stp_state_action_spec {
   uint8_t action_stp_state;

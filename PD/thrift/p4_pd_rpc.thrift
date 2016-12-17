@@ -197,18 +197,14 @@ struct prog_action_forward_set_outIfType_action_spec_t {
 
 /* action_set_mc_fdb_miss has no parameters */
 
-/* action_go_to_in_l3_if_table has no parameters */
-
-struct prog_action_set_lag_hash_size_action_spec_t {
-  1: required byte action_lag_size;
-}
-
 struct prog_action_forward_action_spec_t {
   1: required byte action_port;
 }
 
-struct prog_action_set_bridge_id_action_spec_t {
-  1: required byte action_bridge_id;
+/* action_go_to_in_l3_if_table has no parameters */
+
+struct prog_action_set_lag_hash_size_action_spec_t {
+  1: required byte action_lag_size;
 }
 
 struct prog_action_set_l2_if_type_action_spec_t {
@@ -216,12 +212,16 @@ struct prog_action_set_l2_if_type_action_spec_t {
   2: required byte action_bridge_port;
 }
 
+struct prog_action_set_bridge_id_action_spec_t {
+  1: required byte action_bridge_id;
+}
+
 /* _nop has no parameters */
 
 /* _drop has no parameters */
 
-struct prog_action_set_mcast_snp_action_spec_t {
-  1: required byte action_mcast_snp;
+struct prog_action_set_stp_id_action_spec_t {
+  1: required byte action_stp_id;
 }
 
 /* action_set_packet_vid has no parameters */
@@ -230,8 +230,8 @@ struct prog_action_set_pvid_action_spec_t {
   1: required i16 action_pvid;
 }
 
-struct prog_action_set_stp_id_action_spec_t {
-  1: required byte action_stp_id;
+struct prog_action_set_mcast_snp_action_spec_t {
+  1: required byte action_mcast_snp;
 }
 
 struct prog_action_set_stp_state_action_spec_t {
@@ -283,7 +283,7 @@ service prog {
     EntryHandle_t table_egress_xSTP_table_add_with_action_set_egress_stp_state(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_egress_xSTP_match_spec_t match_spec, 4:prog_action_set_egress_stp_state_action_spec_t action_spec);
     EntryHandle_t table_egress_xSTP_table_add_with__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_egress_xSTP_match_spec_t match_spec);
     EntryHandle_t table_ingress_vlan_filtering_table_add_with__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_ingress_vlan_filtering_match_spec_t match_spec);
-    EntryHandle_t table_ingress_vlan_filtering_table_add_with_action_forward(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_ingress_vlan_filtering_match_spec_t match_spec, 4:prog_action_forward_action_spec_t action_spec);
+    EntryHandle_t table_ingress_vlan_filtering_table_add_with__nop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_ingress_vlan_filtering_match_spec_t match_spec);
     EntryHandle_t table_accepted_frame_type_table_add_with__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_accepted_frame_type_match_spec_t match_spec);
     EntryHandle_t table_accepted_frame_type_table_add_with_action_set_packet_vid(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_accepted_frame_type_match_spec_t match_spec);
     EntryHandle_t table_accepted_frame_type_table_add_with_action_set_pvid(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_table_accepted_frame_type_match_spec_t match_spec, 4:prog_action_set_pvid_action_spec_t action_spec);
@@ -321,7 +321,7 @@ service prog {
     i32 table_egress_xSTP_table_modify_with_action_set_egress_stp_state(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry, 4:prog_action_set_egress_stp_state_action_spec_t action_spec);
     i32 table_egress_xSTP_table_modify_with__drop(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry);
     i32 table_ingress_vlan_filtering_table_modify_with__drop(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry);
-    i32 table_ingress_vlan_filtering_table_modify_with_action_forward(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry, 4:prog_action_forward_action_spec_t action_spec);
+    i32 table_ingress_vlan_filtering_table_modify_with__nop(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry);
     i32 table_accepted_frame_type_table_modify_with__drop(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry);
     i32 table_accepted_frame_type_table_modify_with_action_set_packet_vid(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry);
     i32 table_accepted_frame_type_table_modify_with_action_set_pvid(1:res.SessionHandle_t sess_hdl, 2:byte dev_id, 3:EntryHandle_t entry, 4:prog_action_set_pvid_action_spec_t action_spec);
@@ -384,7 +384,7 @@ service prog {
     EntryHandle_t table_egress_xSTP_set_default_action_action_set_egress_stp_state(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_action_set_egress_stp_state_action_spec_t action_spec);
     EntryHandle_t table_egress_xSTP_set_default_action__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt);
     EntryHandle_t table_ingress_vlan_filtering_set_default_action__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt);
-    EntryHandle_t table_ingress_vlan_filtering_set_default_action_action_forward(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_action_forward_action_spec_t action_spec);
+    EntryHandle_t table_ingress_vlan_filtering_set_default_action__nop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt);
     EntryHandle_t table_accepted_frame_type_set_default_action__drop(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt);
     EntryHandle_t table_accepted_frame_type_set_default_action_action_set_packet_vid(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt);
     EntryHandle_t table_accepted_frame_type_set_default_action_action_set_pvid(1:res.SessionHandle_t sess_hdl, 2:res.DevTarget_t dev_tgt, 3:prog_action_set_pvid_action_spec_t action_spec);

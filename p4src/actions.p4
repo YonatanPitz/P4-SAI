@@ -16,10 +16,10 @@ action action_set_lag_l2if(in bit is_lag, in bit<16> lag_id,in bit<3> l2_if){
 }
 
 action action_set_pvid(in bit<12> pvid){
-	ingress_metadata.pvid 	=	pvid;
+	ingress_metadata.vid 	=	pvid;
 }
 action action_set_packet_vid(){
-	ingress_metadata.pvid 	=	vlan.vid;
+	ingress_metadata.vid 	=	vlan.vid;
 }
 
 action action_set_l2_if_type(in bit<2> l2_if_type, in bit<8> bridge_port){

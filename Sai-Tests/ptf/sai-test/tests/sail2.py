@@ -41,7 +41,6 @@ class L2AccessToAccessVlanTest(sai_base_test.ThriftInterfaceDataPlane):
         self.client.sai_thrift_create_vlan(vlan_id)
         vlan_member1 = sai_thrift_create_vlan_member(self.client, vlan_id, port1, sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_UNTAGGED)
         vlan_member2 = sai_thrift_create_vlan_member(self.client, vlan_id, port2, sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_UNTAGGED)
-
         attr_value = sai_thrift_attribute_value_t(u16=vlan_id)
         attr = sai_thrift_attribute_t(id=sai_port_attr.SAI_PORT_ATTR_PORT_VLAN_ID, value=attr_value)
         self.client.sai_thrift_set_port_attribute(port1, attr)
