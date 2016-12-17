@@ -1249,20 +1249,20 @@ void unbuild_action_data_action_set_bridge_id (
   size_t i = 0;
   string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_bridge_id));
 }
-std::vector<std::string> build_action_data_action_set_stp_id (
-    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
+std::vector<std::string> build_action_data_action_set_mcast_snp (
+    p4_pd_prog_action_set_mcast_snp_action_spec_t *action_spec
 ) {
   std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_stp_id)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_mcast_snp)));
   return action_data;
 }
 
-void unbuild_action_data_action_set_stp_id (
+void unbuild_action_data_action_set_mcast_snp (
     const std::vector<std::string> &action_data,
-    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
+    p4_pd_prog_action_set_mcast_snp_action_spec_t *action_spec
 ) {
   size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_stp_id));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_mcast_snp));
 }
 std::vector<std::string> build_action_data_action_set_pvid (
     p4_pd_prog_action_set_pvid_action_spec_t *action_spec
@@ -1279,20 +1279,20 @@ void unbuild_action_data_action_set_pvid (
   size_t i = 0;
   string_to_field<2>(action_data.at(i++), (char *) &(action_spec->action_pvid));
 }
-std::vector<std::string> build_action_data_action_set_mcast_snp (
-    p4_pd_prog_action_set_mcast_snp_action_spec_t *action_spec
+std::vector<std::string> build_action_data_action_set_stp_id (
+    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
 ) {
   std::vector<std::string> action_data;
-  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_mcast_snp)));
+  action_data.push_back(string_from_field<1>((char *) &(action_spec->action_stp_id)));
   return action_data;
 }
 
-void unbuild_action_data_action_set_mcast_snp (
+void unbuild_action_data_action_set_stp_id (
     const std::vector<std::string> &action_data,
-    p4_pd_prog_action_set_mcast_snp_action_spec_t *action_spec
+    p4_pd_prog_action_set_stp_id_action_spec_t *action_spec
 ) {
   size_t i = 0;
-  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_mcast_snp));
+  string_to_field<1>(action_data.at(i++), (char *) &(action_spec->action_stp_id));
 }
 std::vector<std::string> build_action_data_action_set_stp_state (
     p4_pd_prog_action_set_stp_state_action_spec_t *action_spec

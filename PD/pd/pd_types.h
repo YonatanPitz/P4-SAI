@@ -191,9 +191,9 @@ typedef struct p4_pd_prog_action_set_bridge_id_action_spec {
 
 /* _drop has no parameters */
 
-typedef struct p4_pd_prog_action_set_stp_id_action_spec {
-  uint8_t action_stp_id;
-} p4_pd_prog_action_set_stp_id_action_spec_t;
+typedef struct p4_pd_prog_action_set_mcast_snp_action_spec {
+  uint8_t action_mcast_snp;
+} p4_pd_prog_action_set_mcast_snp_action_spec_t;
 
 /* action_set_packet_vid has no parameters */
 
@@ -201,9 +201,9 @@ typedef struct p4_pd_prog_action_set_pvid_action_spec {
   uint16_t action_pvid;
 } p4_pd_prog_action_set_pvid_action_spec_t;
 
-typedef struct p4_pd_prog_action_set_mcast_snp_action_spec {
-  uint8_t action_mcast_snp;
-} p4_pd_prog_action_set_mcast_snp_action_spec_t;
+typedef struct p4_pd_prog_action_set_stp_id_action_spec {
+  uint8_t action_stp_id;
+} p4_pd_prog_action_set_stp_id_action_spec_t;
 
 typedef struct p4_pd_prog_action_set_stp_state_action_spec {
   uint8_t action_stp_state;

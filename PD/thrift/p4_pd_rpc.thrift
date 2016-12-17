@@ -220,8 +220,8 @@ struct prog_action_set_bridge_id_action_spec_t {
 
 /* _drop has no parameters */
 
-struct prog_action_set_stp_id_action_spec_t {
-  1: required byte action_stp_id;
+struct prog_action_set_mcast_snp_action_spec_t {
+  1: required byte action_mcast_snp;
 }
 
 /* action_set_packet_vid has no parameters */
@@ -230,8 +230,8 @@ struct prog_action_set_pvid_action_spec_t {
   1: required i16 action_pvid;
 }
 
-struct prog_action_set_mcast_snp_action_spec_t {
-  1: required byte action_mcast_snp;
+struct prog_action_set_stp_id_action_spec_t {
+  1: required byte action_stp_id;
 }
 
 struct prog_action_set_stp_state_action_spec_t {
