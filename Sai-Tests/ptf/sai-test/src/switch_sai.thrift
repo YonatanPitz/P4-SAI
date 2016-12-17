@@ -1,9 +1,12 @@
 /*
 Copyright 2013-present Barefoot Networks, Inc.
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +33,46 @@ typedef i32 sai_thrift_policer_stat_counter_t
 typedef i32 sai_thrift_port_stat_counter_t
 typedef i32 sai_thrift_queue_stat_counter_t
 typedef i32 sai_thrift_pg_stat_counter_t
+
+enum sai_fdb_entry_attr {
+    SAI_FDB_ENTRY_ATTR_TYPE,
+    SAI_FDB_ENTRY_ATTR_PACKET_ACTION,
+    SAI_FDB_ENTRY_ATTR_PORT_ID,
+    SAI_FDB_ENTRY_ATTR_META_DATA,
+    SAI_FDB_ENTRY_ATTR_END
+}
+
+enum sai_fdb_entry_type {
+    SAI_FDB_ENTRY_TYPE_DYNAMIC,
+    SAI_FDB_ENTRY_TYPE_STATIC
+}
+
+enum sai_vlan_member_attr {
+    SAI_VLAN_MEMBER_ATTR_VLAN_ID,
+    SAI_VLAN_MEMBER_ATTR_PORT_ID,
+    SAI_VLAN_MEMBER_ATTR_VLAN_TAGGING_MODE
+}
+
+enum sai_port_attr {
+    SAI_PORT_ATTR_PORT_VLAN_ID
+}
+
+enum sai_packet_action {
+    SAI_PACKET_ACTION_DROP,
+    SAI_PACKET_ACTION_FORWARD,
+    SAI_PACKET_ACTION_COPY,
+    SAI_PACKET_ACTION_COPY_CANCEL,
+    SAI_PACKET_ACTION_TRAP,
+    SAI_PACKET_ACTION_LOG,
+    SAI_PACKET_ACTION_DENY,
+    SAI_PACKET_ACTION_TRANSIT
+}
+
+enum sai_vlan_tagging_mode {
+    SAI_VLAN_TAGGING_MODE_UNTAGGED ,
+    SAI_VLAN_TAGGING_MODE_TAGGED ,
+    SAI_VLAN_TAGGING_MODE_PRIORITY_TAGGED 
+}
 
 struct sai_thrift_fdb_entry_t {
     1: sai_thrift_mac_t mac_address;
