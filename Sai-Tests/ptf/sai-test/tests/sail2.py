@@ -76,17 +76,19 @@ class L2TrunkToTrunkVlanTest(sai_base_test.ThriftInterfaceDataPlane):
     def runTest(self):
         print
         print "Sending L2 packet - port 1 -> port 2 [trunk vlan=10])"
-        switch_init(self.client)
+        # switch_init(self.client)
         vlan_id = 10
-        port1 = port_list[0]
-        port2 = port_list[1]
+        # port1 = port_list[0]
+        # port2 = port_list[1]
+        port1 = 2
+        port2 = 3
         mac1 = '00:11:11:11:11:11'
         mac2 = '00:22:22:22:22:22'
-        mac_action = SAI_PACKET_ACTION_FORWARD
+        mac_action = sai_packet_action.SAI_PACKET_ACTION_FORWARD
 
         self.client.sai_thrift_create_vlan(vlan_id)
-        vlan_member1 = sai_thrift_create_vlan_member(self.client, vlan_id, port1, SAI_VLAN_PORT_TAGGED)
-        vlan_member2 = sai_thrift_create_vlan_member(self.client, vlan_id, port2, SAI_VLAN_PORT_TAGGED)
+        vlan_member1 = sai_thrift_create_vlan_member(self.client, vlan_id, port1, sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_TAGGED)
+        vlan_member2 = sai_thrift_create_vlan_member(self.client, vlan_id, port2, sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_TAGGED)
 
 
         sai_thrift_create_fdb(self.client, vlan_id, mac1, port1, mac_action)
@@ -131,8 +133,8 @@ class L2AccessToTrunkVlanTest(sai_base_test.ThriftInterfaceDataPlane):
         mac_action = SAI_PACKET_ACTION_FORWARD
 
         self.client.sai_thrift_create_vlan(vlan_id)
-        vlan_member1 = sai_thrift_create_vlan_member(self.client, vlan_id, port1, SAI_VLAN_PORT_UNTAGGED)
-        vlan_member2 = sai_thrift_create_vlan_member(self.client, vlan_id, port2, SAI_VLAN_PORT_TAGGED)
+        vlan_member1 = sai_thrift_create_vlan_member(self.client, vlan_id, port1, sai_vlan_tagging_mode.SAI_VLAN_PORT_UNTAGGED)
+        vlan_member2 = sai_thrift_create_vlan_member(self.client, vlan_id, port2, sai_vlan_tagging_mode.SAI_VLAN_PORT_TAGGED)
 
         attr_value = sai_thrift_attribute_value_t(u16=vlan_id)
         attr = sai_thrift_attribute_t(id=SAI_PORT_ATTR_PORT_VLAN_ID, value=attr_value)

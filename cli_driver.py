@@ -45,6 +45,9 @@ class SwitchThriftClient():
                                                                                     value_string))
 
 
+    def RemoveTableEntry(self, table_name, match_string):
+        return cli.RuntimeAPI(self.pre, self.standard_client, self.mc_client).do_table_delete_entry_from_key('%s %s' % (table_name, match_string))
+
 def main():
     args = cli.get_parser().parse_args()
     client = SwitchThriftClient()

@@ -190,7 +190,7 @@ table table_egress_vlan_filtering{
         egress_metadata.out_if  : exact;
         ingress_metadata.vid    : exact;
     }
-    actions{_drop;}
+    actions{_drop;action_tag_vlan;action_untag_vlan}
 }
 
 //-----------

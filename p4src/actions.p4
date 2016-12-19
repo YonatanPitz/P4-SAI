@@ -79,6 +79,14 @@ action action_set_egress_stp_state(in bit<2> stp_state){
 	egress_metadata.stp_state = stp_state;
 }
 
+action action_vlan_tag(in bit<12>vid) {
+	_nop;
+}
+
+action action_vlan_untag() {
+	_nop;
+}
+
 action action_set_tag_mode(in bit tag_mode){
 	egress_metadata.tag_mode = tag_mode;
 }

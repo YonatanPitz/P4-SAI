@@ -59,9 +59,10 @@ class SaiHandler:
   	return 0
 
   def sai_thrift_delete_fdb_entry(self, thrift_fdb_entry):
-    #TODO: how to delete table by keys? need to get handle
-    #self.cli_client.
-  	return 0
+    match_str = thrift_fdb_entry.mac_address + ' ' + str(self.bridge_id)
+    print "RemoveTableEntry: %s" % match_str
+    self.cli_client.RemoveTableEntry('table_fdb', match_str)
+    return 0
 
   def sai_thrift_delete_vlan(self, vlan_id):
     self.active_vlans.pop(vlan_id, None)
@@ -75,6 +76,8 @@ class SaiHandler:
     return 0
 
   def sai_thrift_create_vlan_member(self, vlan_member_attr_list):
+  	# sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_TAGGED
+  	# sai_vlan_tagging_mode.SAI_VLAN_TAGGING_MODE_UNTAGGED
     for attr in vlan_member_attr_list:
       if attr.id == sai_vlan_member_attr.SAI_VLAN_MEMBER_ATTR_VLAN_ID:
         vlan_id = attr.value.s32
@@ -95,6 +98,8 @@ class SaiHandler:
     self.cli_client.AddTable('table_ingress_l2_interface_type', 'action_set_l2_if_type',
                              list_to_str([port_id, vlan_id]), list_to_str([l2_if_type, br_port]))
     self.cli_client.AddTable('table_vbridge', 'action_set_bridge_id', str(br_port), str(self.bridge_id))
+
+    
 
     return vlan_member_id
 
